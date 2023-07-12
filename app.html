@@ -1,39 +1,77 @@
 <!-- <!DOCTYPE html> -->
 <html>
   <head>
-    <title>Welcome to My Webpage</title>
+    <link rel="icon" type="image/x-icon" href="logo.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="script.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/yourcode.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <link rel="icon" type ="icon" href="logo.ico"> -->
+
     <link rel="stylesheet" href="app.css" />
+
+    <!-- navbar -->
+    <div class="topnav">
+      <img
+        src="logo.svg"
+        width="60px"
+        height="48px"
+        id="logo"
+        alt="Logo image"
+        style="margin-left: 10px"
+      />
+      <!-- <a href="#toggle" class="toggle-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a> -->
+
+      <input type="checkbox" id="check" />
+
+      <label for="check">
+        <span class="toggle-button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </span>
+      </label>
+
+      <div class="navbar-links">
+        <ul>
+          <li><a class="active" href="#home">Home</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
+    </div>
   </head>
   <body>
-    <header>
-      <!-- navbar -->
-      <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-      </div>
-      <h1> Webpage</h1>
-    </header>
-<!-- table  -->
+    <div class="title">
+      <h1>Webpage</h1>
+    </div>
+
+    <!-- table  -->
     <main>
       <section id="table">
-        <h2>table</h2>
         <table>
+          <!-- table header -->
           <tr>
-            <!-- table header -->
             <th>Company</th>
             <th>Contact</th>
             <th>Country</th>
           </tr>
+          <!-- table rows -->
           <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
+            <td>we</td>
+            <td>jannah</td>
             <td>Germany</td>
           </tr>
           <tr>
-            <td>Centro comercial Moctezuma</td>
-            <td>Francisco Chang</td>
+            <td>comercial</td>
+            <td>maram</td>
             <td>Mexico</td>
           </tr>
         </table>
@@ -41,7 +79,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2023 My Webpage. All rights reserved.</p>
+      <p class="footer">&copy; 2023 My Webpage. All rights reserved.</p>
     </footer>
   </body>
 </html>

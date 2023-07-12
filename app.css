@@ -1,15 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+.body {
+  height: 100vh;
+}
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #333;
-  overflow: hidden;
+  background-color: #cac9c9;
+  overflow: hidden; /* The overflow is clipped */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
+.navbar-links ul {
+  display: flex;
+}
+.navbar-links li {
+  list-style: none;
+}
 /* Style the links inside the navigation bar */
 .topnav a {
+  /*navbar-links li a */
   float: left;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
+  margin-left: auto;
+  display: block;
+  /* top and bottom paddings are 14px right and left paddings are 16px */
   font-size: 17px;
 }
 
@@ -21,8 +43,30 @@
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04aa6d;
+  background-color: #04aa6d; 
   color: white;
+}
+.topnav .toggle-button {
+  position:fixed;
+  /* right: 0; */
+  right: 1rem;
+  top:15px; 
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+}
+.toggle-button .bar {
+  
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+}
+.title {
+  text-align: center;
+  padding: 1%;
 }
 /* remove borders of the table between rows and set style  */
 table {
@@ -40,4 +84,75 @@ th {
 /* add color to even cells in the table  */
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(176, 161, 161);
+  color: white;
+  text-align: center;
+}
+.topnav .icon {
+  display: none;
+}
+
+.checkbtn {
+  font-size: 30px;
+  color: black;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+}
+#check {
+  display: none;
+  position: fixed;
+  top:0; 
+  width: 200px;
+  z-index: 111;
+}
+
+@media (max-width: 600px) {
+  .topnav .toggle-button {
+    display: flex;
+    /* background-color: #04aa6d; */
+  }
+
+
+  .navbar-links {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    background-color: #cac9c9;
+    top: 45px;
+    /* left: -1000%; */
+    text-align: center;
+  }
+
+  .topnav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .topnav a {
+    padding: 14px 0px;
+  }
+  .navbar-links ul {
+    flex-direction: column;
+    width: 100%;
+  }
+  .navbar-links li a {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar-links.active {
+    display: flex;
+  }
+  
+  #check:checked ~ .navbar-links {
+    /* background-color: aqua; */
+    display: flex;
+  }
 }
