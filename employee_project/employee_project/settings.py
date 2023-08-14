@@ -43,7 +43,36 @@ INSTALLED_APPS = [
     'employee_register', 
     'crispy_forms', 
     'rest_framework',
+
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+
 ]
+from datetime import timedelta
+SIMPLE_JWT = { 
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#     ),
+# }
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+#chat
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#     ),
+# }
 
 CRISPY_TEMPLATE_PACK= 'bootstrap5'
 
@@ -83,12 +112,12 @@ WSGI_APPLICATION = 'employee_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql', # --> MySQL 
         'NAME': 'Employees',
-        'USER':'postgres', 
-        'PASSWORD':'dija',
+        'USER':'root', 
+        'PASSWORD':'dija2002',
         'HOST':'localhost', 
-        'PORT': '', 
+        'PORT': '3306',
     }
 }
 

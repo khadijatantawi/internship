@@ -1,9 +1,9 @@
 from django import forms
-from .models import Employee
+from .models import Profile
  
 class EmployeeForm(forms.ModelForm):
     class Meta :
-        model = Employee
+        model = Profile
         fields= '__all__' 
         
     

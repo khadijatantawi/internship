@@ -1,16 +1,51 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .forms import EmployeeForm
-from .models import Employee
-from .serializers import EmployeeSerializer
+from .models import Profile # changed employee to profile 
+from .serializers import ProfileSerializer 
+from .serializers import UserSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,generics
 from django.views import View 
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 # Create your views here.
 #this is where you create all of your endpoints an endpoint is certain url where you can access data from 
 
+class ProfileListAPIView(ListCreateAPIView):
+    """
+    List/Create profiles 
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class ProfileDetailAPIView(RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve/Update/Delete a profile 
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class UserListCreateAPIView(generics.ListCreateAPIView):
+    """
+    Register a new user.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
@@ -94,84 +129,111 @@ from rest_framework.views import APIView
 #with the same name as that of the app 
 
 # @api_view(['GET','POST'])      
-class employee_list(APIView):
+# class employee_list(APIView):
     
-    def get(self,request): #we pass self because its a class so we can reference the actual view  
-        context = Employee.objects.all()
-        serializer=EmployeeSerializer(context,many= True)
-        return Response({'employee':serializer.data})  
+#     def get(self,request): 
+#         """ 
+#         we pass self because it's a class so we can reference the actual view 
+#         """
+#         context = Profile.objects.all()
+#         serializer=ProfileSerializer(context,many= True)
+#         return Response({'employee':serializer.data})  
     
-    def post(self,request):
-        serializer = EmployeeSerializer(data= request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status= status.HTTP_201_CREATED ) 
+#     def post(self,request):
+#         serializer = ProfileSerializer(data= request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status= status.HTTP_201_CREATED ) 
         
+
 # @api_view(['GET','PUT','DELETE'])
-class employee_detail(APIView):
+# class employee_detail(APIView):
 
-    def get(self,request,id):
-        try:
-            employee= Employee.objects.get(pk=id) # pk = primary key 
-        except Employee.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)  
-        serializer= EmployeeSerializer(employee)
-        return Response(serializer.data)  
+#     def get(self,request,id):
+#         try:
+#             employee= Profile.objects.get(pk=id) # pk = primary key 
+#         except Profile.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)  
+#         serializer= ProfileSerializer(employee)
+#         return Response(serializer.data)  
         
-    def put(self,request,id):
-        try:
-            employee= Employee.objects.get(pk=id) # pk = primary key 
-        except Employee.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)  
-        serializer = EmployeeSerializer(employee, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self,request,id):
+#         try:
+#             employee= Profile.objects.get(pk=id) # pk = primary key 
+#         except Profile.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)  
+#         serializer = ProfileSerializer(employee, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self,request,id):    
-        try:
-            employee= Employee.objects.get(pk=id) # pk = primary key 
-        except Employee.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)  
+#     def delete(self,request,id):    
+#         try:
+#             employee= Profile.objects.get(pk=id) # pk = primary key 
+#         except Profile.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)  
 
-        employee.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT )
+#         employee.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT )
     
     
     
-class employee_form(APIView): 
-    # get and post request for update operation
-    def get(self,request,id):
-        if id == 0 :
-            form = EmployeeForm() # if it is an insert operation we'll have an empty form 
-        else :
-            employee=Employee.objects.get(pk=id)
-            form= EmployeeForm(instance=employee)
-        return render(request , "employee_register/employee_form.html", {'form':form })
+# class employee_form(APIView): 
+#     # get and post request for update operation
+#     def get(self,request,id):
+#         if id == 0 :
+#             form = EmployeeForm() # if it is an insert operation we'll have an empty form 
+#         else :
+#             employee=Profile.objects.get(pk=id)
+#             form= EmployeeForm(instance=employee)
+#         return render(request , "employee_register/employee_form.html", {'form':form })
     
-    def post(self,request,id):
-        if id ==0 :
-            form= EmployeeForm(request.POST)
-        else :
-            employee=Employee.objects.get(pk=id)
-            form=EmployeeForm(request.POST, instance= employee) #inside the emplotyee oject we need to have 
+#     def post(self,request,id):
+#         if id ==0 :
+#             form= EmployeeForm(request.POST)
+#         else :
+#             employee=Profile.objects.get(pk=id)
+#             form=EmployeeForm(request.POST, instance= employee) #inside the emplotyee oject we need to have 
             
-        # if form.is_valid():
-        form.save()
-        return redirect('/employee/list')
+#         # if form.is_valid():
+#         form.save()
+#         return redirect('/employee/list')
   
 
 
-class employee_delete(APIView):
-    def get (self , request , id ):
-        employee=Employee.objects.get(pk=id)
-        employee.delete()
-        return redirect('/employee/list')
+# class employee_delete(APIView):
+#     def get (self , request , id ):
+#         employee=Profile.objects.get(pk=id)
+#         employee.delete()
+#         return redirect('/employee/list')
 
-# class register(APIView):
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response(serializer.data)
+# # class register(APIView):
+# #     def post(self, request):
+# #         serializer = UserSerializer(data=request.data)
+# #         serializer.is_valid(raise_exception=True)
+# #         serializer.save()
+# #         return Response(serializer.data)
+
+# # #chat
+# from rest_framework_jwt.views import ObtainJSONWebToken, RefreshJSONWebToken
+
+# class CustomObtainJSONWebToken(ObtainJSONWebToken):
+
+#     # For example, you can log the login activity or modify the response data
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         # Additional logic...
+        
+#         return response
+
+# class CustomRefreshJSONWebToken(RefreshJSONWebToken):
+#     # Add any additional logic here if needed
+#     # For example, you can log the token refresh activity or modify the response data
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         # Additional logic...
+        
+#         return response
+    
+      

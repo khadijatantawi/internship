@@ -13,25 +13,18 @@ from django.contrib.auth.models import AbstractUser
 #     REQUIRED_FIELDS=[]
     
     
-class Position(models.Model):
-    title= models.CharField(max_length=50)
+class Profile(models.Model):
+  
+    name = models.CharField(max_length=50, null=False)
+    phone = models.CharField(max_length=15, unique=True, null=False)
+    speed = models.CharField(max_length=20, null=True)
+    pop_name = models.CharField(max_length=50, null=True)
+    dslam_hostname = models.CharField(max_length=50, null=True)
+    frame = models.IntegerField(null=True)
+    attainable_speed = models.IntegerField(null=True)
+
     
     def __str__(self):
-        return self.title
-    
-    
-class Employee(models.Model):
-
-# class Employee(models.Model):
-    fullname= models.CharField(max_length=100)
-    emp_code= models.CharField (max_length=200)
-    mobile= models.CharField(max_length=100)
-    position= models.ForeignKey(Position, on_delete=models.CASCADE)
-    
-    # USERNAME_FIELD='emp_code'
-    # REQUIRED_FIELDS=[]
-    
-    def __str__(self):
-        return self.fullname + '' + self.mobile + '' + self.emp_code + '' + self.position
-
+        # return self.fullname + '' + self.mobile + '' + self.emp_code + '' + self.position
+        return self.name
     
