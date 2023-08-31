@@ -48,10 +48,25 @@ urlpatterns = [
 #     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path("admin/", admin.site.urls),
+    
     path('users/', UserListCreateAPIView.as_view(), name='register'),
+    
+    
+
+    # authentication 
+   
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+
+
+    # Adding and listing profiles  
+    
     path('profiles/', ProfileListAPIView.as_view(), name='Profiles-list'),
+    
+    
+    #  update , delete , retrieve certain profile by id 
+    
     path('profiles/<int:pk>/',
          ProfileDetailAPIView.as_view(), name='Profile-detail'),
 

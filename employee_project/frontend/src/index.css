@@ -1,0 +1,15 @@
+body, h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Apply a default font and background color to the entire app */
+  body {
+    font-family: Arial, sans-serif;
+    /* background-color: #f0f0f0; */
+  }
+  
+  /* Add some margin to the top of the page */
+  #root {
+    margin-top: 20px;
+  }

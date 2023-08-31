@@ -46,13 +46,27 @@ INSTALLED_APPS = [
 
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    
+   
+    #for frontend connection 
+    'corsheaders',
+     
+    # "pmt_api",
 
 ]
+
+# ROOT_URLCONF = "pmt_api.urls"
+
 from datetime import timedelta
 SIMPLE_JWT = { 
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # Set token expiration time as needed
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
 }
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
 #         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -65,6 +79,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+      
+    
+    
 }
 
 #chat
@@ -79,12 +96,31 @@ CRISPY_TEMPLATE_PACK= 'bootstrap5'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+ 
 ]
+
+# Allow requests from your React frontend's domain (http://localhost:3000)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+# Allow credentials to be sent with the request (important for authentication)
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'employee_project.urls'
 
