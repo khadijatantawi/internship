@@ -1,29 +1,15 @@
-// import React from "react";
-// import { Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Outlet, Navigate } from "react-router-dom";
+//outlet is used to render chilld routes
 
-// const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         auth.accessToken ? (
-//           <Component {...props} />
-//         ) : (
-//           <Navigate to="/login" />
-//         )
-//       }
-//     />
-//   );
-// };
+const ProtectedRoute = () => {
+  const isAuthenticated = localStorage.getItem("token");
 
-// export default PrivateRoute;
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
-
-const ProtectedRoute = ({children}) => {
-    const isAuthenticated = localStorage.getItem('token');
-
-    return isAuthenticated ? < Outlet /> : <Navigate to="/login" />
+  if (isAuthenticated) {
+    return <Outlet />;
+  } else {
+    <Navigate to="/login" />;
+    return null;
+  }
 };
 export default ProtectedRoute;
-

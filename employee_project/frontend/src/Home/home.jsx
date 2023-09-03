@@ -1,11 +1,16 @@
 // Import necessary libraries and components
 import React, { useState, useEffect } from "react";
 import "./home.css";
-import logo from "./logo.svg";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Navbar from "../Layout/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faCheck , faSearch} from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faCheck,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+
 
 const Home = () => {
   // State variables to manage data and form inputs
@@ -20,34 +25,28 @@ const Home = () => {
   const [uattainable_speed, usetAttainable_speed] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [searchBy, setSearchBy] = useState("name");
 
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  // Fetch data from the server
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/employee/profiles/"
+      );
+      setData(response.data);
+      setFilteredData(response.data); // Initialize both data and filteredData
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    // Fetch data on component mount
-    useEffect(() => {
-      fetchData();
-    }, []);
-  
-    // Fetch data from the server
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/employee/profiles/"
-        );
-        setData(response.data);
-        setFilteredData(response.data); // Initialize both data and filteredData
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-
-
-  // Filter data based on search query 
+  // Filter data based on search query
 
   useEffect(() => {
-   
     const filtered = data.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -117,58 +116,26 @@ const Home = () => {
     <div className="web">
       {/* Navbar */}
 
-      <nav className="topnav">
-        <div className="navtitle">
-          <img
-            src={logo}
-            width="60px"
-            height="48px"
-            id="logo"
-            alt="Logo image"
-            style={{ marginLeft: "10px" }}
-          />
-          Profile Managment Tool{" "}
-        </div>
-        <input type="checkbox" id="check" />
-        <label htmlFor="check">
-          <span className="toggle-button">
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </span>
-        </label>
-        <div className="navbar-links">
-          <ul>
-            <li>
-              <Link to="/home" className="active">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/AddRecord">Add Profile</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navbar></Navbar>
 
       {/* Title */}
       <div className="title">{/* <h1>Profile Managment</h1> */}</div>
 
       {/* Table */}
       <div className="search-container">
-          <input
-            type="text"
-            className="form-control search-input"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-           <FontAwesomeIcon
-                      icon={faSearch}
-                      onClick={handleSearch} 
-                      style={{width:"40px" , color:"000000" , marginLeft:"10px" }}
-                    />
-        </div>
+        <input
+          type="text"
+          className="form-control search-input"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <FontAwesomeIcon
+          icon={faSearch}
+          onClick={handleSearch}
+          style={{ width: "40px", color: "000000", marginLeft: "10px" }}
+        />
+      </div>
       <div className="centered-container ">
         <table className="centered-table">
           <thead>
